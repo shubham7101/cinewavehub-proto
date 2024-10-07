@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package cinewavehub;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+
+enum Flag {
+  NO_FLAG = 0;
+  FLAG_CORS_ALLOWED = 1;
+  FLAG_CORS_BLOCKED = 2;
+  FLAG_IP_LOCKED = 3;
+  FLAG_CF_WORKER_BLOCKED = 4;
+
+  FLAG_INSTANT_DOWNLOAD = 5;
+  FLAG_RESUME_DOWNLOAD = 6;
+}

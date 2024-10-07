@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cinewavehub.scarper;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
+
+import "anime.proto";
+
+service AnimeScraper {
+  rpc Info(AnimeScraperInfoRequest) returns (cinewavehub.AnimeSearchResult);
+}
+
+message AnimeScraperInfoRequest {
+  string mal_id = 1;
+}

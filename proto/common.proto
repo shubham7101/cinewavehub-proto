@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package cinewavehub;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+
+import "google/protobuf/timestamp.proto";
+
+message Pagination {
+  uint32 current_page = 1;
+  uint32 total_page = 2;
+  uint32 per_page = 3;
+  bool has_next_page = 4;
+}
+
+message Image {
+    string large = 1;
+    string medium = 2;
+    string small = 3;
+}
+
+message MappingInfo {
+    string id = 1;
+    string post_id = 2;
+    string title = 3;
+    double ratio = 4;
+    string url = 5;
+    bool other = 6;
+}
+
+message MappingsEntry {
+    string key = 1;
+    repeated MappingInfo value = 2;
+}
+
+message Mappings {
+    repeated MappingsEntry mappings = 1;
+}
+
+message Provider {
+    string name = 1;
+    string id = 2;
+    bool other = 3;
+}
+
+message Aired {
+  google.protobuf.Timestamp aired = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
+  uint32 year = 4;
+  uint32 endYear = 5;
+}
+
+message NextAiringEpisode {
+  google.protobuf.Timestamp airing_at = 1;
+  uint32 episode = 2;
+  uint32 season = 3;
+  string name = 4;
+}
+
+message PlaybackURL {
+  string type = 1;
+  string quality = 2;
+  string url = 3;
+}
+
+message Video {
+  bool adult = 1;
+  string duration = 2;
+  string name = 3;
+  string description = 4;
+  Image thumbnail = 5;
+  repeated PlaybackURL playback_urls = 6;
+}
+
+message Quote {
+  repeated string character = 1;
+  string text = 2;
+}
+
+message Quotes {
+  repeated Quote quotes = 1;
+}
+
+message AlternativeTitle {
+  string iso_code = 1;
+  string title = 2;
+  string type = 3;
+}
+
+message SoundTrack {
+  string text = 1;
+  repeated string comments = 2;
+}
+
+message Company {
+  string name = 1;
+  string origin_country = 2;
+  Image logo = 3;
+}
+
+message Tag {
+  string name = 1;
+  string description = 2;
+  string category = 3;
+  int32 rank = 4;
+  bool is_general_spoiler = 5;
+  bool is_media_spoiler = 6;
+  bool adult = 7;
+}
+
+message OfficialSite {
+  string name = 1;
+  string url = 2;
+}
+
+message SpokenLanguage {
+    string iso_639_1 = 1;
+    string name = 2;
+    string english_name = 3;
+}
+
+message Ranking {
+  int32 rank = 1;
+  string type = 2;
+  string format = 3;
+  int32 year = 4;
+  string season = 5;
+  bool all_time = 6;
+  string context = 7;
+}
+
+message RecommendedMedia {
+  map<string, string> id = 1;
+  map<string, string> titles = 2;
+  Image image = 3;
+  double score = 4;
+  string duration = 5;
+  repeated string genres = 6;
+  bool canHaveEpisodes = 7;
+}
+
+message Connection {
+  string id = 1;
+  map<string, string> titles = 2;
+  string category = 3;
+}
+
+message BelongsToCollection {
+    map<string, string> id = 1;
+    string name = 2;
+    Image image = 3;
+    Image background_image = 4;
+}
+
+message Crew {
+    bool adult = 1;
+    string gender = 2;
+    map<string, string> id = 3;
+    string known_for_department = 4;
+    map<string, string> names = 5;
+    Image profile = 6;
+    string department = 7;
+    repeated string job = 8;
+}
+
+message Cast {
+    bool adult = 1;
+    string gender = 2;
+    map<string, string> id = 3;
+    string known_for_department = 4;
+    map<string, string> names = 5;
+    Image profile = 6;
+    map<string, string> cast_id = 7;
+    string character = 8;
+}

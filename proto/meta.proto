@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package cinewavehub;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+
+import "common.proto";
+import "enums.proto";
+
+
+message MediaSearch {
+  map<string, string> id = 1;
+  string slug = 2;
+  map<string, string> title = 3;
+  string description = 4;
+  Image image = 5;
+  MediaType type = 6;
+  double score = 7;
+  double max_score = 8;
+  uint32 year = 9;
+  uint32 episodes = 10;
+  Format format = 11;
+  Status status = 12;
+  bool adult = 13;
+}
+
+message MediaSearchResult {
+  string provider = 1;
+  Pagination pagination = 2;
+  repeated MediaSearch data = 3;
+}
+
+message CastAndCrew {
+    repeated Cast cast = 1;
+    repeated Crew crew = 2;
+}

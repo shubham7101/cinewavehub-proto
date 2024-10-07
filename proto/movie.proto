@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package cinewavehub;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+import "enums.proto";
+
+
+message MovieSearch {
+    bool adult = 1;
+    string id = 2;
+    string post_id = 3;
+    string title = 4;
+    MediaType media_type = 5;
+    string image = 6;
+    uint32 release_year = 7;
+}
+
+
+message MovieSearchResult {
+    string provider = 1;
+    Pagination pagination = 2;
+    repeated MovieSearch data = 3;
+}
+
+
+message MovieEpisode {
+    string episode_id = 1;
+    uint32 episode = 2;
+    map<string,string> title = 3;
+    google.protobuf.Timestamp release_date = 4;
+    Image image = 5;
+    string description = 6;
+    float score = 7;
+}
+
+
+message MovieEpisodes {
+    repeated MovieEpisode episodes = 1;
+}
+
+
+message MovieSeason {
+    uint32 season_no = 1;
+    MovieEpisodes episodes = 2;
+}
+
+
+message MovieSeasons {
+    string provider = 1;
+    repeated MovieSeason seasons = 2;
+}
+
+message SeasonOverview {
+    uint32 season = 1;
+    string name = 2;
+    Aired aired = 3;
+    uint32 episode_count = 4;
+    float score = 5;
+    string description = 6;
+    Image image = 7;
+}
+
+message MoviesInfo {
+    map<string, string> id = 1;
+    map<string,string> post_id = 2;
+    map<string, string> titles = 3;
+    MediaType media_type = 4;
+    bool is_tv = 5;
+    bool adult = 6;
+    string status = 7;
+    Season season = 8;
+    float score = 9;
+    float max_score = 10;
+    string duration = 11;
+    string tagline = 12;
+    string description = 13;
+    Aired aired = 14;
+    Image image = 15;
+    Image background_image = 16;
+    repeated string genres = 17;
+    repeated string keywords = 18;
+    repeated string countries_of_origin = 19;
+    string original_language = 20;
+    repeated string languages = 21;
+    repeated SpokenLanguage spoken_languages = 22;
+    uint32 budget = 23;
+    uint32 revenue = 24;
+    string homepage = 25;
+    string certificate = 26;
+    uint32 total_seasons = 27;
+    uint32 total_episodes = 28;
+    repeated uint32 seasons_years = 29;
+    repeated Video videos = 30;
+    repeated Company production_companies = 31;
+    repeated AlternativeTitle alternative_titles = 32;
+    repeated RecommendedMedia recommended_media = 33;
+    NextAiringEpisode next_airing_episode = 34;
+    BelongsToCollection belongs_to_collection = 35;
+    repeated SeasonOverview seasons_overview = 36;
+}

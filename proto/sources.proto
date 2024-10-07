@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package cinewavehub;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+
+import "flags.proto";
+
+message Source {
+  string url = 1;
+  bool is_m3u8 = 2;
+  string type = 3;
+  string language = 4;
+  string format = 5;
+  string bitrate = 6;
+}
+
+message Subtitle {
+  string url = 1;
+  string lang = 2;
+  string kind = 3;
+}
+
+message Timer {
+  uint32 start = 1;
+  uint32 end = 2;
+}
+
+message Sources {
+  repeated Source sources = 1;
+  repeated Subtitle subtitles = 2;
+  string poster = 3;
+  string thumbnail = 4;
+  string thumbnail_type = 5;
+  repeated Flag flags = 6;
+  Timer intro = 7;
+  Timer outro = 8;
+  map<string,string> ProxySettings = 9;
+}

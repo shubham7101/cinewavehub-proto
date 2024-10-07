@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package cinewavehub;
+
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+
+enum MediaType {
+  NONE_MEDIATYPE = 0;
+  ANIME = 1;
+  MANGA = 2;
+  MOVIE = 3;
+  TV = 4;
+}
+
+enum Status {
+  NO_STATUS = 0;
+  STATUS_FINISHEDAIRING = 1;
+  STATUS_CURRENTLYAIRING = 2;
+  STATUS_NOTYETAIRED = 3;
+  STATUS_CANCELLED = 4;
+  STATUS_HIATUS = 5;
+}
+
+enum Format {
+  NO_FORMAT = 0;
+  FORMAT_MOVIE = 1;
+  FORMAT_TV = 2;
+  FORMAT_OVA = 3;
+  FORMAT_ONA = 4;
+  FORMAT_SPECIAL = 5;
+  FORMAT_MUSIC = 6;
+  FORMAT_COMMERCIAL = 7;
+}
+
+enum Rating {
+  NO_RATING = 0;
+  RATING_G = 1;
+  RATING_PG = 2;
+  RATING_PG13 = 3;
+  RATING_R = 4;
+  RATING_RPLUS = 5;
+  RATING_RX = 6;
+}
+
+enum Season {
+  NO_SEASON = 0;
+  SEASON_SPRING = 1;
+  SEASON_SUMMER = 2;
+  SEASON_FALL = 3;
+  SEASON_WINTER = 4;
+}
