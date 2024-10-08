@@ -1,22 +1,95 @@
 syntax = "proto3";
 
-package cinewavehub;
+package cinewavehub.scraper;
 
-option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
+
 
 import "google/protobuf/timestamp.proto";
+import "scraper/scraper_enums.proto";
 
-message Pagination {
-  uint32 current_page = 1;
-  uint32 total_page = 2;
-  uint32 per_page = 3;
-  bool has_next_page = 4;
+message Empty {}
+
+message Server {
+  string server = 1;
+  string server_id = 2;
+  string language = 3;
+  google.protobuf.Timestamp expires_at = 4;
 }
 
-message Image {
-    string large = 1;
-    string medium = 2;
-    string small = 3;
+message ServersResponse {
+  repeated Server servers = 1;
+}
+
+message ServersInfo {
+  ServersResponse servers = 1;
+  bool other = 2;
+  google.protobuf.Timestamp expires_at = 3;
+}
+
+message ServerMappings {
+  map <string,ServersInfo> servers_mappings = 1;
+}
+
+message Source {
+  string url = 1;
+  bool is_m3u8 = 2;
+  string type = 3;
+  string language = 4;
+  string format = 5;
+  string bitrate = 6;
+}
+
+message Subtitle {
+  string url = 1;
+  string lang = 2;
+  string kind = 3;
+}
+
+message Timer {
+  uint32 start = 1;
+  uint32 end = 2;
+}
+
+message SourcesRequest {
+  string key = 1;
+  string server = 2;
+  string server_id = 3;
+}
+
+message SourcesResponse {
+  repeated Source sources = 1;
+  repeated Subtitle subtitles = 2;
+  string poster = 3;
+  string thumbnail = 4;
+  string thumbnail_type = 5;
+  repeated Flag flags = 6;
+  Timer intro = 7;
+  Timer outro = 8;
+  map<string,string> ProxySettings = 9;
+}
+
+message VideoDetail {
+  int32 width = 1;
+  int32 height = 2;
+  float duration = 3;
+  float frame_rate = 4;
+  repeated string audios = 5;
+  repeated string subtitles = 6;
+}
+
+message Link {
+  string link = 1;
+  repeated Flag flags = 2;
+}
+
+message DownloadResponse {
+  string file_name = 1;
+  repeated Link direct = 2;
+  repeated Link external = 3;
+  int32 size = 4;
+  string type = 5;
+  VideoDetail video_detail = 6;
 }
 
 message MappingInfo {
@@ -41,6 +114,19 @@ message Provider {
     string name = 1;
     string id = 2;
     bool other = 3;
+}
+
+message Pagination {
+  uint32 current_page = 1;
+  uint32 total_page = 2;
+  uint32 per_page = 3;
+  bool has_next_page = 4;
+}
+
+message Image {
+    string large = 1;
+    string medium = 2;
+    string small = 3;
 }
 
 message Aired {

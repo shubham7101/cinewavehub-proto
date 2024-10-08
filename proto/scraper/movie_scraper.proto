@@ -1,13 +1,12 @@
 syntax = "proto3";
 
-package cinewavehub;
+package cinewavehub.scraper;
 
-option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
 
 import "google/protobuf/timestamp.proto";
-import "common.proto";
-import "enums.proto";
-
+import "scraper/scraper_common.proto";
+import "scraper/scraper_enums.proto";
 
 message MovieSearch {
     bool adult = 1;
@@ -20,7 +19,7 @@ message MovieSearch {
 }
 
 
-message MovieSearchResult {
+message MovieSearchResponse {
     string provider = 1;
     Pagination pagination = 2;
     repeated MovieSearch data = 3;
@@ -49,7 +48,7 @@ message MovieSeason {
 }
 
 
-message MovieSeasons {
+message MovieSeasonsResponse {
     string provider = 1;
     repeated MovieSeason seasons = 2;
 }
@@ -64,7 +63,7 @@ message SeasonOverview {
     Image image = 7;
 }
 
-message MoviesInfo {
+message MoviesInfoResponse {
     map<string, string> id = 1;
     map<string,string> post_id = 2;
     map<string, string> titles = 3;

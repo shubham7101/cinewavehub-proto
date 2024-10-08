@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-package cinewavehub;
+package cinewavehub.scraper;
 
-option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
+
 
 enum MediaType {
   NONE_MEDIATYPE = 0;
@@ -48,4 +49,15 @@ enum Season {
   SEASON_SUMMER = 2;
   SEASON_FALL = 3;
   SEASON_WINTER = 4;
+}
+
+enum Flag {
+  NO_FLAG = 0;
+  FLAG_CORS_ALLOWED = 1;
+  FLAG_CORS_BLOCKED = 2;
+  FLAG_IP_LOCKED = 3;
+  FLAG_CF_WORKER_BLOCKED = 4;
+
+  FLAG_INSTANT_DOWNLOAD = 5;
+  FLAG_RESUME_DOWNLOAD = 6;
 }

@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package cinewavehub;
+package cinewavehub.scraper;
 
-option go_package = "github.com/shubham7101/cinewavehub-proto/gen";
+option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
 
-import "common.proto";
-import "enums.proto";
+import "scraper/scraper_common.proto";
+import "scraper/scraper_enums.proto";
 
 
 message MediaSearch {
@@ -24,13 +24,13 @@ message MediaSearch {
   bool adult = 13;
 }
 
-message MediaSearchResult {
+message MediaSearchResponse {
   string provider = 1;
   Pagination pagination = 2;
   repeated MediaSearch data = 3;
 }
 
-message CastAndCrew {
+message CastAndCrewResponse {
     repeated Cast cast = 1;
     repeated Crew crew = 2;
 }

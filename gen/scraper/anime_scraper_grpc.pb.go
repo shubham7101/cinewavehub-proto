@@ -8,7 +8,6 @@ package scraper
 
 import (
 	context "context"
-	gen "github.com/shubham7101/cinewavehub-proto/gen"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,14 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AnimeScraper_Info_FullMethodName = "/cinewavehub.scarper.AnimeScraper/Info"
+	AnimeScraper_Info_FullMethodName    = "/cinewavehub.scraper.AnimeScraper/Info"
+	AnimeScraper_Sources_FullMethodName = "/cinewavehub.scraper.AnimeScraper/Sources"
 )
 
 // AnimeScraperClient is the client API for AnimeScraper service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnimeScraperClient interface {
-	Info(ctx context.Context, in *AnimeScraperInfoRequest, opts ...grpc.CallOption) (*gen.AnimeSearchResult, error)
+	Info(ctx context.Context, in *AnimeInfoRequest, opts ...grpc.CallOption) (*AnimeInfoResponse, error)
+	Sources(ctx context.Context, in *SourcesRequest, opts ...grpc.CallOption) (*SourcesResponse, error)
 }
 
 type animeScraperClient struct {
@@ -38,10 +39,20 @@ func NewAnimeScraperClient(cc grpc.ClientConnInterface) AnimeScraperClient {
 	return &animeScraperClient{cc}
 }
 
-func (c *animeScraperClient) Info(ctx context.Context, in *AnimeScraperInfoRequest, opts ...grpc.CallOption) (*gen.AnimeSearchResult, error) {
+func (c *animeScraperClient) Info(ctx context.Context, in *AnimeInfoRequest, opts ...grpc.CallOption) (*AnimeInfoResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(gen.AnimeSearchResult)
+	out := new(AnimeInfoResponse)
 	err := c.cc.Invoke(ctx, AnimeScraper_Info_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *animeScraperClient) Sources(ctx context.Context, in *SourcesRequest, opts ...grpc.CallOption) (*SourcesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SourcesResponse)
+	err := c.cc.Invoke(ctx, AnimeScraper_Sources_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +63,8 @@ func (c *animeScraperClient) Info(ctx context.Context, in *AnimeScraperInfoReque
 // All implementations must embed UnimplementedAnimeScraperServer
 // for forward compatibility.
 type AnimeScraperServer interface {
-	Info(context.Context, *AnimeScraperInfoRequest) (*gen.AnimeSearchResult, error)
+	Info(context.Context, *AnimeInfoRequest) (*AnimeInfoResponse, error)
+	Sources(context.Context, *SourcesRequest) (*SourcesResponse, error)
 	mustEmbedUnimplementedAnimeScraperServer()
 }
 
@@ -63,8 +75,11 @@ type AnimeScraperServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAnimeScraperServer struct{}
 
-func (UnimplementedAnimeScraperServer) Info(context.Context, *AnimeScraperInfoRequest) (*gen.AnimeSearchResult, error) {
+func (UnimplementedAnimeScraperServer) Info(context.Context, *AnimeInfoRequest) (*AnimeInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Info not implemented")
+}
+func (UnimplementedAnimeScraperServer) Sources(context.Context, *SourcesRequest) (*SourcesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Sources not implemented")
 }
 func (UnimplementedAnimeScraperServer) mustEmbedUnimplementedAnimeScraperServer() {}
 func (UnimplementedAnimeScraperServer) testEmbeddedByValue()                      {}
@@ -88,7 +103,7 @@ func RegisterAnimeScraperServer(s grpc.ServiceRegistrar, srv AnimeScraperServer)
 }
 
 func _AnimeScraper_Info_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AnimeScraperInfoRequest)
+	in := new(AnimeInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -100,7 +115,25 @@ func _AnimeScraper_Info_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: AnimeScraper_Info_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AnimeScraperServer).Info(ctx, req.(*AnimeScraperInfoRequest))
+		return srv.(AnimeScraperServer).Info(ctx, req.(*AnimeInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AnimeScraper_Sources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SourcesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnimeScraperServer).Sources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnimeScraper_Sources_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnimeScraperServer).Sources(ctx, req.(*SourcesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -109,12 +142,16 @@ func _AnimeScraper_Info_Handler(srv interface{}, ctx context.Context, dec func(i
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AnimeScraper_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "cinewavehub.scarper.AnimeScraper",
+	ServiceName: "cinewavehub.scraper.AnimeScraper",
 	HandlerType: (*AnimeScraperServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Info",
 			Handler:    _AnimeScraper_Info_Handler,
+		},
+		{
+			MethodName: "Sources",
+			Handler:    _AnimeScraper_Sources_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
