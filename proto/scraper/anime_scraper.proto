@@ -27,6 +27,7 @@ message AnimeSearch {
     Format format = 10;
     string duration = 11;
     string released = 12;
+    string url = 13;
 }
 
 
