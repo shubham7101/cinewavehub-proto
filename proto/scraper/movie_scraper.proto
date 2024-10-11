@@ -6,14 +6,21 @@ option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
 
 import "google/protobuf/timestamp.proto";
 import "scraper/scraper_common.proto";
-import "scraper/scraper_enums.proto";
+import "common/enums.proto";
+
+
+service MovieScraper {
+  rpc Info(MovieInfoRequest) returns (MovieInfoResponse);
+
+  rpc Sources(SourcesRequest) returns (SourcesResponse);
+}
 
 message MovieSearch {
     bool adult = 1;
     string id = 2;
     string post_id = 3;
     string title = 4;
-    MediaType media_type = 5;
+    common.MediaType media_type = 5;
     string image = 6;
     uint32 release_year = 7;
 }
@@ -48,7 +55,7 @@ message MovieSeason {
 }
 
 
-message MovieSeasonsResponse {
+message MovieSeasons {
     string provider = 1;
     repeated MovieSeason seasons = 2;
 }
@@ -63,15 +70,19 @@ message SeasonOverview {
     Image image = 7;
 }
 
-message MoviesInfoResponse {
+message MovieInfoRequest {
+  string tmdb_id = 1;
+}
+
+message MovieInfoResponse {
     map<string, string> id = 1;
     map<string,string> post_id = 2;
     map<string, string> titles = 3;
-    MediaType media_type = 4;
+    common.MediaType media_type = 4;
     bool is_tv = 5;
     bool adult = 6;
     string status = 7;
-    Season season = 8;
+    common.Season season = 8;
     float score = 9;
     float max_score = 10;
     string duration = 11;

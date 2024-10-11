@@ -6,10 +6,14 @@ option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
 
 import "google/protobuf/timestamp.proto";
 import "scraper/scraper_common.proto";
-import "scraper/scraper_enums.proto";
+import "common/enums.proto";
 
 service AnimeScraper {
   rpc Info(AnimeInfoRequest) returns (AnimeInfoResponse);
+
+  rpc EpisodesAndMappings(AnimeEpisodesAndMappingsRequest) returns (AnimeEpisodesAndMappingsResponse);
+
+  rpc EpisodesAndMappingsAsync(AnimeEpisodesAndMappingsRequest) returns (ScraperResponse);
 
   rpc Sources(SourcesRequest) returns (SourcesResponse);
 }
@@ -24,7 +28,7 @@ message AnimeSearch {
     Image image = 7;
     string title = 8;
     string jtitle = 9;
-    Format format = 10;
+    common.Format format = 10;
     string duration = 11;
     string released = 12;
     string url = 13;
@@ -41,19 +45,33 @@ message AnimeSearchResponse {
 message AnimeEpisode {
     string episode_id = 1;
     float episode = 2;
-    map<string,string> title = 3;
-    string jtitle = 4;
-    string description = 5;
-    bool is_filler = 6;
-    string duration = 7;
-    Image image = 8;
-    google.protobuf.Timestamp release_date = 9;
-    bool is_aired = 10;
+    map<string,string> titles = 3;
+    string description = 4;
+    Image image = 5;
+    bool filler = 6;
+    bool aired = 7;
+    bool available = 8;
+    string duration = 9;
+    google.protobuf.Timestamp release_date = 10;
+    repeated Provider providers = 11;
 }
 
-message AnimeEpisodesResponse {
-    string provider = 1;
+message AnimeEpisodes {
     repeated AnimeEpisode episodes = 2;
+}
+
+message AnimeEpisodesAndMappingsRequest {
+  string mal_id = 1;
+  string simkl_id = 2;
+  map<string,string> titles = 3;
+  common.Format format = 4;
+  bool externalMappings = 5;
+  Mappings maps = 6;
+}
+
+message AnimeEpisodesAndMappingsResponse{
+  Mappings mappings = 1;
+  repeated AnimeEpisode episodes = 2;
 }
 
 message AnimeInfoRequest {
@@ -63,29 +81,29 @@ message AnimeInfoRequest {
 message AnimeInfoResponse {
     map<string, string> id = 1;
     map<string,string> post_id = 2;
-    map<string, string> title = 3;
+    map<string, string> titles = 3;
     string description = 4;
     Image image = 5;
     Image banner_image = 6;
-    Format format = 7;
-    Status status = 8;
+    common.Format format = 7;
+    common.Status status = 8;
     Aired aired = 9;
-    Season season = 10;
+    common.Season season = 10;
     uint32 season_year = 11;
     uint32 season_int = 12;
     uint32 episodes = 13;
     string duration = 14;
     string country_of_origin = 15;
-    bool is_licensed = 16;
+    bool licensed = 16;
     string source = 17;
     string hashtag = 18;
     Video trailer = 19;
     google.protobuf.Timestamp updated_at = 20;
     repeated string synonyms = 21;
     repeated string genres = 22;
-    Rating rating = 23;
-    float score = 24;
-    float max_score = 25;
+    common.Rating rating = 23;
+    map<string,float> score = 24;
+    map<string,float> max_score = 25;
     string broadcast = 26;
     repeated Company producers = 27;
     repeated string themes = 28;

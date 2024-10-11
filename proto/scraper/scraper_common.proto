@@ -6,9 +6,16 @@ option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
 
 
 import "google/protobuf/timestamp.proto";
-import "scraper/scraper_enums.proto";
+import "common/enums.proto";
 
 message Empty {}
+
+message ScraperResponse {
+  string status = 1;
+  string task_id = 2;
+  string topic = 3;
+  string message = 4;
+}
 
 message Server {
   string server = 1;
@@ -17,12 +24,12 @@ message Server {
   google.protobuf.Timestamp expires_at = 4;
 }
 
-message ServersResponse {
+message Servers {
   repeated Server servers = 1;
 }
 
 message ServersInfo {
-  ServersResponse servers = 1;
+  Servers servers = 1;
   bool other = 2;
   google.protobuf.Timestamp expires_at = 3;
 }
@@ -63,7 +70,7 @@ message SourcesResponse {
   string poster = 3;
   string thumbnail = 4;
   string thumbnail_type = 5;
-  repeated Flag flags = 6;
+  repeated common.Flag flags = 6;
   Timer intro = 7;
   Timer outro = 8;
   map<string,string> ProxySettings = 9;
@@ -80,7 +87,7 @@ message VideoDetail {
 
 message Link {
   string link = 1;
-  repeated Flag flags = 2;
+  repeated common.Flag flags = 2;
 }
 
 message DownloadResponse {
@@ -95,19 +102,18 @@ message DownloadResponse {
 message MappingInfo {
     string id = 1;
     string post_id = 2;
-    string title = 3;
-    double ratio = 4;
+    map<string,string> title = 3;
+    float ratio = 4;
     string url = 5;
     bool other = 6;
 }
 
-message MappingsEntry {
-    string key = 1;
-    repeated MappingInfo value = 2;
+message MappingInfos {
+  repeated MappingInfo mappings_info = 1;
 }
 
 message Mappings {
-    repeated MappingsEntry mappings = 1;
+    map<string,MappingInfos> mappings = 1;
 }
 
 message Provider {
@@ -190,8 +196,8 @@ message Tag {
   string description = 2;
   string category = 3;
   int32 rank = 4;
-  bool is_general_spoiler = 5;
-  bool is_media_spoiler = 6;
+  bool general_spoiler = 5;
+  bool media_spoiler = 6;
   bool adult = 7;
 }
 

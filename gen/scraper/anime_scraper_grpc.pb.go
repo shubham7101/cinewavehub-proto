@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AnimeScraper_Info_FullMethodName    = "/cinewavehub.scraper.AnimeScraper/Info"
-	AnimeScraper_Sources_FullMethodName = "/cinewavehub.scraper.AnimeScraper/Sources"
+	AnimeScraper_Info_FullMethodName                     = "/cinewavehub.scraper.AnimeScraper/Info"
+	AnimeScraper_EpisodesAndMappings_FullMethodName      = "/cinewavehub.scraper.AnimeScraper/EpisodesAndMappings"
+	AnimeScraper_EpisodesAndMappingsAsync_FullMethodName = "/cinewavehub.scraper.AnimeScraper/EpisodesAndMappingsAsync"
+	AnimeScraper_Sources_FullMethodName                  = "/cinewavehub.scraper.AnimeScraper/Sources"
 )
 
 // AnimeScraperClient is the client API for AnimeScraper service.
@@ -28,6 +30,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AnimeScraperClient interface {
 	Info(ctx context.Context, in *AnimeInfoRequest, opts ...grpc.CallOption) (*AnimeInfoResponse, error)
+	EpisodesAndMappings(ctx context.Context, in *AnimeEpisodesAndMappingsRequest, opts ...grpc.CallOption) (*AnimeEpisodesAndMappingsResponse, error)
+	EpisodesAndMappingsAsync(ctx context.Context, in *AnimeEpisodesAndMappingsRequest, opts ...grpc.CallOption) (*ScraperResponse, error)
 	Sources(ctx context.Context, in *SourcesRequest, opts ...grpc.CallOption) (*SourcesResponse, error)
 }
 
@@ -49,6 +53,26 @@ func (c *animeScraperClient) Info(ctx context.Context, in *AnimeInfoRequest, opt
 	return out, nil
 }
 
+func (c *animeScraperClient) EpisodesAndMappings(ctx context.Context, in *AnimeEpisodesAndMappingsRequest, opts ...grpc.CallOption) (*AnimeEpisodesAndMappingsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AnimeEpisodesAndMappingsResponse)
+	err := c.cc.Invoke(ctx, AnimeScraper_EpisodesAndMappings_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *animeScraperClient) EpisodesAndMappingsAsync(ctx context.Context, in *AnimeEpisodesAndMappingsRequest, opts ...grpc.CallOption) (*ScraperResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ScraperResponse)
+	err := c.cc.Invoke(ctx, AnimeScraper_EpisodesAndMappingsAsync_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *animeScraperClient) Sources(ctx context.Context, in *SourcesRequest, opts ...grpc.CallOption) (*SourcesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SourcesResponse)
@@ -64,6 +88,8 @@ func (c *animeScraperClient) Sources(ctx context.Context, in *SourcesRequest, op
 // for forward compatibility.
 type AnimeScraperServer interface {
 	Info(context.Context, *AnimeInfoRequest) (*AnimeInfoResponse, error)
+	EpisodesAndMappings(context.Context, *AnimeEpisodesAndMappingsRequest) (*AnimeEpisodesAndMappingsResponse, error)
+	EpisodesAndMappingsAsync(context.Context, *AnimeEpisodesAndMappingsRequest) (*ScraperResponse, error)
 	Sources(context.Context, *SourcesRequest) (*SourcesResponse, error)
 	mustEmbedUnimplementedAnimeScraperServer()
 }
@@ -77,6 +103,12 @@ type UnimplementedAnimeScraperServer struct{}
 
 func (UnimplementedAnimeScraperServer) Info(context.Context, *AnimeInfoRequest) (*AnimeInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Info not implemented")
+}
+func (UnimplementedAnimeScraperServer) EpisodesAndMappings(context.Context, *AnimeEpisodesAndMappingsRequest) (*AnimeEpisodesAndMappingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EpisodesAndMappings not implemented")
+}
+func (UnimplementedAnimeScraperServer) EpisodesAndMappingsAsync(context.Context, *AnimeEpisodesAndMappingsRequest) (*ScraperResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EpisodesAndMappingsAsync not implemented")
 }
 func (UnimplementedAnimeScraperServer) Sources(context.Context, *SourcesRequest) (*SourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Sources not implemented")
@@ -120,6 +152,42 @@ func _AnimeScraper_Info_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AnimeScraper_EpisodesAndMappings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AnimeEpisodesAndMappingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnimeScraperServer).EpisodesAndMappings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnimeScraper_EpisodesAndMappings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnimeScraperServer).EpisodesAndMappings(ctx, req.(*AnimeEpisodesAndMappingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AnimeScraper_EpisodesAndMappingsAsync_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AnimeEpisodesAndMappingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AnimeScraperServer).EpisodesAndMappingsAsync(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AnimeScraper_EpisodesAndMappingsAsync_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AnimeScraperServer).EpisodesAndMappingsAsync(ctx, req.(*AnimeEpisodesAndMappingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AnimeScraper_Sources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SourcesRequest)
 	if err := dec(in); err != nil {
@@ -148,6 +216,14 @@ var AnimeScraper_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Info",
 			Handler:    _AnimeScraper_Info_Handler,
+		},
+		{
+			MethodName: "EpisodesAndMappings",
+			Handler:    _AnimeScraper_EpisodesAndMappings_Handler,
+		},
+		{
+			MethodName: "EpisodesAndMappingsAsync",
+			Handler:    _AnimeScraper_EpisodesAndMappingsAsync_Handler,
 		},
 		{
 			MethodName: "Sources",

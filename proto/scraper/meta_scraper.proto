@@ -5,7 +5,7 @@ package cinewavehub.scraper;
 option go_package = "github.com/shubham7101/cinewavehub-proto/gen/scraper";
 
 import "scraper/scraper_common.proto";
-import "scraper/scraper_enums.proto";
+import "common/enums.proto";
 
 
 message MediaSearch {
@@ -14,13 +14,13 @@ message MediaSearch {
   map<string, string> title = 3;
   string description = 4;
   Image image = 5;
-  MediaType type = 6;
+  common.MediaType type = 6;
   double score = 7;
   double max_score = 8;
   uint32 year = 9;
   uint32 episodes = 10;
-  Format format = 11;
-  Status status = 12;
+  common.Format format = 11;
+  common.Status status = 12;
   bool adult = 13;
 }
 
